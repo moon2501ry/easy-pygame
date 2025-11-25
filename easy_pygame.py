@@ -32,7 +32,6 @@ def get_events():
         events.append(event);
     return events;
 
-
 def isquiting():
     """
     Retorna verdadeiro quando o aplicativo estiver sendo fechado.
@@ -65,6 +64,27 @@ def keyboard_check(key,type:str|None="pressed"):
                 key_status[key]["up"] = True;
     return key_status[key][type];
 
+def init_render(background_color:str|None="black"):
+    screen.fill(background_color);
+
+def final_render():
+    global dt
+    pygame.display.flip();
+    dt = clock.tick(60)/100;
+
+# def draw_2d(type:str,position:pygame.Vector2,color:str,radio:int):
+#     match type:
+#         case "circle":
+#             pygame.draw.circle(screen,color,position,radio);
+#         case "polygon":
+#             pygame.draw.polygon(screen,color,position,radio);
+
+def draw_circle(position:pygame.Vector2,color:str,radius:int):
+    pygame.draw.circle(screen,color,position,radius);
+
+def draw_polygon(position:pygame.Vector2,color:str):
+    pygame.draw.polygon();
+
 
 class Coordinate:
     def __init__(self,x:int,y:int):
@@ -78,17 +98,17 @@ class Coordinate:
     def goto(self,dir_or_guid:str,force:int):
         match dir_or_guid:
             case "vertical":
-                self.y += force;
+                self.y += force * dt;
             case "horizontal":
-                self.x += force;
+                self.x += force * dt;
             case "left":
-                self.x -= force;
+                self.x -= force * dt;
             case "right":
-                self.x += force;
+                self.x += force * dt;
             case "up":
-                self.y -= force;
+                self.y -= force * dt;
             case "down":
-                self.y += force;
+                self.y += force * dt;
         self.update();
     def __repr__(self):
         return f"({self.x},{self.y})";
